@@ -1,6 +1,7 @@
 var _ = require('lodash');
 var funcUtil = require('./func-details');
 var toString = require('memory-to-string').default;
+var inflection = require('inflection');
 
 var defaultOptions = {
   moduleLoader: 'commonjs'
@@ -14,6 +15,10 @@ module.exports = function(Controller, options) {
     routeDetails.args = funcUtil.extractArguments(logic);
     return _.omit(routeDetails, 'logic');
   });
+  if(Object.keys(object).length === 0) {
+    return false;
+  }
+  object.tableName = Controller.tableName;
   var prefix = '(function() {\n';
   var suffix = '\tmodule.exports = ' + Controller.modelName + ';\n})();';
   var namespace = 'var ' + Controller.modelName;
