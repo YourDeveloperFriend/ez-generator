@@ -1,4 +1,5 @@
 var _ = require('lodash');
+var funcUtil = require('./func-details');
 var toString = require('memory-to-string').default;
 
 var defaultOptions = {
@@ -10,13 +11,8 @@ module.exports = function(Controller, options) {
   var routes = Controller.getAllRoutes('express');
   var object = _.mapValues(routes, function(routeDetails, routeName) {
     var logic = Controller.getLogicFunction(routeDetails, Controller.prototype);
-    routeDetails = _.omit(routeDetails, 'logic');
-    var funcString = '(function() {\n' +
-      'this._makeRequest(this._routeDetails[\'' + routeName + '\']' +
-      ', arguments, \'' + Controller.modelName + '\', \'' + routeName + '\');\n' +
-    '});';
-    routeDetails.logic = eval(funcString);
-    return routeDetails;
+    routeDetails.args = funcUtil.extractArguments(logic);
+    return _.omit(routeDetails, 'logic');
   });
   var prefix = '(function() {\n';
   var suffix = '\tmodule.exports = EZRoutes;\n})();';
