@@ -9,6 +9,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "ez-express": "0.0.5",
     "lodash": "^3.8.0",
     "memory-to-string": "0.0.2"
   }
