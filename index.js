@@ -20,5 +20,6 @@ module.exports = function(Controller, options) {
   });
   var prefix = '(function() {';
   var suffix = '\tmodule.exports = EZRoutes;\n})();';
+  var namespace = 'var ' + Controller.modelName;
   return toString(object, namespace, {prefix: prefix, suffix: suffix});
 };
