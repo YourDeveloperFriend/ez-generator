@@ -15,7 +15,7 @@ module.exports = function(Controller, options) {
     return _.omit(routeDetails, 'logic');
   });
   var prefix = '(function() {\n';
-  var suffix = '\tmodule.exports = EZRoutes;\n})();';
+  var suffix = '\tmodule.exports = ' + Controller.modelName + ';\n})();';
   var namespace = 'var ' + Controller.modelName;
   return toString(object, namespace, {prefix: prefix, suffix: suffix});
 };
